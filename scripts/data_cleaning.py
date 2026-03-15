@@ -1,5 +1,42 @@
 """
-Hospital Capacity Analysis - Data Cleaning Script
+Data Cleaning Pipeline
+
+Author: David Saridakis
+Project: hospital-capacity-analysis
+
+Description
+-----------
+This module contains the data cleaning pipeline used to process the
+Spanish National Catalogue of Hospitals dataset.
+
+The cleaned dataset is used for downstream analysis, SQL database
+storage, and dashboard visualisation.
+
+Pipeline Steps
+--------------
+1. Standardise column names (lowercase, snake_case).
+2. Rename key fields for clarity.
+3. Handle missing values in complex identifiers.
+4. Remove redundant administrative codes.
+5. Validate dataset integrity.
+
+Usage
+-----
+
+Import in notebooks:
+
+    from scripts.data_cleaning import clean_hospital_data
+
+Run as standalone script:
+
+    python scripts/data_cleaning.py
+
+Output
+------
+
+Cleaned dataset exported to:
+
+    data/cleaned/hospitals_clean.csv
 """
 
 # Import libraries
