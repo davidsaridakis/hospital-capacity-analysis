@@ -95,9 +95,9 @@ def clean_hospital_data(df: pd.DataFrame) -> pd.DataFrame:
     ])
 
     # Data validatioin checks
-    assert df['beds'].min >= 0, "Invalid bed counts detected"
+    assert df['beds'].min() >= 0, "Invalid bed counts detected"
 
-    assert df['hospital_name'].isnull.sum() == 0, (
+    assert df['hospital_name'].isnull().sum() == 0, (
         "Hospital name contains null values.."
     )
 
