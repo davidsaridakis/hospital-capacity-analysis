@@ -71,6 +71,26 @@ def clean_hospital_data(df: pd.DataFrame) -> pd.DataFrame:
         "clase_de_centro": "center_type"
     })
 
+    # Standardise text fields
+    text_cols = [
+        'hospital_name',
+        'address'.
+        'municipality',
+        'province',
+        'autonomous_community',
+        'management_type',
+        'center_type'
+    ]
+
+    for col in text_cols:
+        df[col] = (
+            df[col]
+            .astype(str)
+            .str.strip()
+            .str.lower()
+        )
+
+
     # Handle missing values
     df["nombre_del_complejo"] = df["nombre_del_complejo"].fillna("Independent")
 
