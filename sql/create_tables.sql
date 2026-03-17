@@ -15,7 +15,7 @@ DROP TABLE IF EXISTS center_types;
 
 CREATE TABLE communities(
     community_id INT AUTO_INCREMENT PRIMARY KEY,
-    community_name VARCHAR(100) NOT NULL
+    community_name VARCHAR(100) NOT NULL UNIQUE
 );
 
 -- ---------------
@@ -24,7 +24,7 @@ CREATE TABLE communities(
 
 CREATE TABLE provinces(
     province_id INT AUTO_INCREMENT PRIMARY KEY,
-    province_name VARCHAR(100) NOT NULL,
+    province_name VARCHAR(100) NOT NULL UNIQUE,
     community_id INT,
 
     FOREIGN KEY (community_id) 
@@ -37,7 +37,7 @@ CREATE TABLE provinces(
 
 CREATE TABLE management_types (
     management_type_id INT AUTO_INCREMENT PRIMARY KEY,
-    management_type VARCHAR(100)
+    management_type VARCHAR(100) UNIQUE
 );
 
 -- ---------------
@@ -46,7 +46,7 @@ CREATE TABLE management_types (
 
 CREATE TABLE center_types(
     center_type_id INT AUTO_INCREMENT PRIMARY KEY,
-    center_type VARCHAR(100)
+    center_type VARCHAR(100) UNIQUE
 );
 
 -- ---------------
