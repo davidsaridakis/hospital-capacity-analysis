@@ -1,11 +1,9 @@
 USE hospital_capacity_db;
 
--- Remove staging table if it already exists
-DROP TABLE IF EXISTS hospitals_staging;
 
----------------------------------------------
+-- -------------------------------------------
 -- Reset tables so script can be rerun safely
----------------------------------------------
+-- -------------------------------------------
 
 -- Disable foreign key constrtaints
 SET FOREIGN_KEY_CHECKS =0;
@@ -16,13 +14,15 @@ TRUNCATE TABLE provinces;
 TRUNCATE TABLE communities;
 TRUNCATE TABLE management_types;
 TRUNCATE TABLE center_types;
-TRUNCATE TABLE hospitals_staging;
 
 -- Re-enable foreign key contraints
-SET FOREIGN_kEY_CHECKS = 1;
+SET FOREIGN_KEY_CHECKS = 1;
 
 
--- Temporary table for importing CSV data
+-- Remove staging table if it already exists
+DROP TABLE IF EXISTS hospitals_staging;
+
+-- Create staging table for importing CSV data
 CREATE TABLE hospitals_staging (
     ccn BIGINT,
     hospital_name VARCHAR(255),
@@ -51,29 +51,87 @@ INTO TABLE hospitals_staging
 FIELDS TERMINATED BY ','
 ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
-IGNORE 1 ROWS;
+IGNORE 1 ROWS
+-- Set beds to null if empty to avoid warnings
+SET beds = NULLIF(beds, '');
 
 
+-- -------------------------------------
 -- Populate communities dimension table
+-- -------------------------------------
 INSERT INTO communities (community_name)
 SELECT DISTINCT autonomous_community
 FROM hospitals_staging
 WHERE autonomous_community IS NOT NULL;
 
--- Populate provinces dimension table
--- Each province belongs to an autonomous community
-INSERT INTO provinces (province_name)
 
+-- -------------------------------------
+-- Populate provinces dimension table
+-- -------------------------------------
+-- Each province belongs to an autonomous community
+INSERT INTO provinces (province_name, community_id)
 SELECT DISTINCT
     hs.province,
     c.community_id
-
 FROM hospitals_staging hs
 
 JOIN communities c
     ON hs.autonomous_community = c.community_name
-
 WHERE hs.province IS NOT NULL;
+
+
+-- -------------------------------------
+-- Populate management_types dimension table
+-- -------------------------------------
+INSERT INTO management_types (management_type)
+SELECT DISTINCT management_type
+FROM hospitals_staging
+WHERE management_type IS NOT NULL;
+
+
+-- -------------------------------------
+-- Populate center_types dimension table
+-- -------------------------------------
+INSERT INTO center_types (center_type)
+SELECT DISTINCT center_type
+FROM hospitals_staging
+WHERE center_type IS NOT NULL;
+
+
+-- -------------------------------------
+-- Populate hospitals fact table
+-- -------------------------------------
+INSERT INTO hospitals (
+    hospital_name,
+    address,
+    municipality,
+    postal_code,
+    beds,
+    province_id,
+    management_type_id,
+    center_type_id
+)
+SELECT
+    hs.hospital_name,
+    hs.address,
+    hs.municipality,
+    hs.postcode,
+    hs.beds,
+    
+    p.province_id,
+    mt.management_type_id,
+    ct.center_type_id
+
+FROM hospitals_staging hs
+
+JOIN provinces p
+    ON hs.province = p.province_name
+
+JOIN management_types mt
+    ON hs.management_type = mt.management_type
+
+JOIN center_types ct
+    ON hs.center_type = ct.center_type;
 
 -- ---------------------------------------
 -- Validation checks
