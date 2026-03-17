@@ -3,8 +3,14 @@
 
 USE hospital_capacity_db;
 
+DROP TABLE IF EXISTS hospitals;
+DROP TABLE IF EXISTS provinces;
+DROP TABLE IF EXISTS communities;
+DROP TABLE IF EXISTS management_types;
+DROP TABLE IF EXISTS center_types;
+
 -- ---------------
--- Communities 
+-- Create communities dimension table
 -- ---------------
 
 CREATE TABLE communities(
@@ -13,7 +19,7 @@ CREATE TABLE communities(
 );
 
 -- ---------------
--- Provinces 
+-- Create provinces dimension table 
 -- ---------------
 
 CREATE TABLE provinces(
@@ -26,7 +32,7 @@ CREATE TABLE provinces(
 );
 
 -- ---------------
--- Management Types
+-- Create management_types dimension table
 -- ---------------
 
 CREATE TABLE management_types (
@@ -35,16 +41,16 @@ CREATE TABLE management_types (
 );
 
 -- ---------------
--- Center Types 
+-- Create center_types dimension table 
 -- ---------------
 
 CREATE TABLE center_types(
     center_type_id INT AUTO_INCREMENT PRIMARY KEY,
-    centre_type VARCHAR(100)
+    center_type VARCHAR(100)
 );
 
 -- ---------------
--- Hospitals
+-- Create hospitals fact table
 -- ---------------
 
 CREATE TABLE hospitals(
