@@ -41,6 +41,7 @@ Cleaned dataset exported to:
 
 # Import libraries
 import pandas as pd
+from pathlib import Path
 
 
 def clean_hospital_data(df: pd.DataFrame) -> pd.DataFrame:
@@ -74,7 +75,7 @@ def clean_hospital_data(df: pd.DataFrame) -> pd.DataFrame:
     # Standardise text fields
     text_cols = [
         'hospital_name',
-        'address'.
+        'address',
         'municipality',
         'province',
         'autonomous_community',
@@ -126,8 +127,10 @@ def clean_hospital_data(df: pd.DataFrame) -> pd.DataFrame:
 
 if __name__ == "__main__":
 
-    raw_path = "../data/raw/hospitales_spain_raw.xlsx"
-    output_path = "../data/cleaned/hospitals_clean.csv"
+    BASE_DIR = Path(__file__).resolve().parents[1]
+
+    raw_path = BASE_DIR / "data/raw/hospitales_spain_raw.xlsx"
+    output_path = BASE_DIR / "data/cleaned/hospitals_clean.csv"
 
     df = pd.read_excel(raw_path)
 
