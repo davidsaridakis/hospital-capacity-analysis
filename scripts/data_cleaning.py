@@ -95,8 +95,6 @@ def clean_hospital_data(df: pd.DataFrame) -> pd.DataFrame:
     # Handle missing values
     df["nombre_del_complejo"] = df["nombre_del_complejo"].fillna("Independent")
 
-    df["codidcom"] = df["codidcom"].fillna(0).astype(int)
-
 
     # Fix data types
 
