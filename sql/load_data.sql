@@ -1,5 +1,8 @@
-USE hospital_capacity_db;
+-- =====================================================
+-- Hospital Capacity Analysis - Load Data
+-- =====================================================
 
+USE hospital_capacity_db;
 
 -- -------------------------------------------
 -- Reset tables so script can be rerun safely

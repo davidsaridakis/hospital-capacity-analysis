@@ -1,5 +1,6 @@
--- Hospital Capacity Analysis
--- Table Creation Script
+-- =====================================================
+-- Hospital Capacity Analysis - Create Tables
+-- =====================================================
 
 USE hospital_capacity_db;
 
