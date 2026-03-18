@@ -25,7 +25,9 @@ SET FOREIGN_KEY_CHECKS = 1;
 -- Remove staging table if it already exists
 DROP TABLE IF EXISTS hospitals_staging;
 
+-- ------------------------------------------------
 -- Create staging table for importing CSV data
+-- ------------------------------------------------
 CREATE TABLE hospitals_staging (
     ccn BIGINT,
     hospital_name VARCHAR(255),
@@ -47,8 +49,9 @@ CREATE TABLE hospitals_staging (
     email VARCHAR(255)
 );
 
-
+-- ------------------------------------------------
 -- Load the CSV file
+-- ------------------------------------------------
 LOAD DATA LOCAL INFILE '/mnt/c/Users/guada/Desktop/Study/projects/hospital-capacity-analysis/data/cleaned/hospitals_clean.csv'
 INTO TABLE hospitals_staging
 FIELDS TERMINATED BY ','
@@ -59,18 +62,18 @@ IGNORE 1 ROWS
 SET beds = NULLIF(beds, '');
 
 
--- -------------------------------------
+-- ------------------------------------------------
 -- Populate communities dimension table
--- -------------------------------------
+-- ------------------------------------------------
 INSERT INTO communities (community_name)
 SELECT DISTINCT autonomous_community
 FROM hospitals_staging
 WHERE autonomous_community IS NOT NULL;
 
 
--- -------------------------------------
+-- ------------------------------------------------
 -- Populate provinces dimension table
--- -------------------------------------
+-- ------------------------------------------------
 -- Each province belongs to an autonomous community
 INSERT INTO provinces (province_name, community_id)
 SELECT DISTINCT
@@ -83,27 +86,27 @@ JOIN communities c
 WHERE hs.province IS NOT NULL;
 
 
--- -------------------------------------
+-- ------------------------------------------------
 -- Populate management_types dimension table
--- -------------------------------------
+-- ------------------------------------------------
 INSERT INTO management_types (management_type)
 SELECT DISTINCT management_type
 FROM hospitals_staging
 WHERE management_type IS NOT NULL;
 
 
--- -------------------------------------
+-- ------------------------------------------------
 -- Populate center_types dimension table
--- -------------------------------------
+-- ------------------------------------------------
 INSERT INTO center_types (center_type)
 SELECT DISTINCT center_type
 FROM hospitals_staging
 WHERE center_type IS NOT NULL;
 
 
--- -------------------------------------
+-- ------------------------------------------------
 -- Populate hospitals fact table
--- -------------------------------------
+-- ------------------------------------------------
 INSERT INTO hospitals (
     hospital_name,
     address,
@@ -136,9 +139,9 @@ JOIN management_types mt
 JOIN center_types ct
     ON hs.center_type = ct.center_type;
 
--- ---------------------------------------
+-- ------------------------------------------------
 -- Validation checks
--- ---------------------------------------
+-- ------------------------------------------------
 
 SELECT 'Staging rows', COUNT(*) 
 FROM hospitals_staging;

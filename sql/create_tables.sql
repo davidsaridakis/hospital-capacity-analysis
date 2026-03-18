@@ -10,18 +10,18 @@ DROP TABLE IF EXISTS communities;
 DROP TABLE IF EXISTS management_types;
 DROP TABLE IF EXISTS center_types;
 
--- ---------------
+-- ------------------------------------------------
 -- Create communities dimension table
--- ---------------
+-- ------------------------------------------------
 
 CREATE TABLE communities(
     community_id INT AUTO_INCREMENT PRIMARY KEY,
     community_name VARCHAR(100) NOT NULL UNIQUE
 );
 
--- ---------------
+-- ------------------------------------------------
 -- Create provinces dimension table 
--- ---------------
+-- ------------------------------------------------
 
 CREATE TABLE provinces(
     province_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -32,27 +32,26 @@ CREATE TABLE provinces(
     REFERENCES communities(community_id)  
 );
 
--- ---------------
+-- ------------------------------------------------
 -- Create management_types dimension table
--- ---------------
-
+-- ------------------------------------------------
 CREATE TABLE management_types (
     management_type_id INT AUTO_INCREMENT PRIMARY KEY,
     management_type VARCHAR(100) UNIQUE
 );
 
--- ---------------
+-- ------------------------------------------------
 -- Create center_types dimension table 
--- ---------------
+-- ------------------------------------------------
 
 CREATE TABLE center_types(
     center_type_id INT AUTO_INCREMENT PRIMARY KEY,
     center_type VARCHAR(100) UNIQUE
 );
 
--- ---------------
+-- ------------------------------------------------
 -- Create hospitals fact table
--- ---------------
+-- ------------------------------------------------
 
 CREATE TABLE hospitals(
     hospital_id INT AUTO_INCREMENT PRIMARY KEY,
