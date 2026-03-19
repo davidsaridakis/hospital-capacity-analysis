@@ -19,7 +19,7 @@ USE hospital_capacity_db;
 -- ------------------------------------------------
 -- Create reusable view
 -- ------------------------------------------------
-CREATE OR REPALCE VIEW hospital_full_data AS
+CREATE OR REPLACE VIEW hospital_full_data AS
 SELECT
     h.hospital_id,
     h.hospital_name,
@@ -104,21 +104,27 @@ LIMIT 10;
 -- (Public v Private)
 -- ------------------------------------------------
 SELECT
-    management_type,
+    CASE
+        WHEN management_type = 'privados' THEN 'Private'
+        ELSE 'Public / Other'    
+    END AS management_group,
     COUNT(*) AS total_hospitals
 FROM hospital_full_data
-GROUP BY management_type
+GROUP BY management_group
 ORDER BY total_hospitals DESC;
 
 
 -- ------------------------------------------------
 -- Total Beds by Management Type
 -- ------------------------------------------------
-SELECT 
-    management_type,
+SELECT
+    CASE
+        WHEN management_type = 'privados' THEN 'Private'
+        ELSE 'Public / Other'    
+    END AS management_group,
     SUM(beds) AS total_beds
 FROM hospital_full_data
-GROUP BY management_type
+GROUP BY management_group
 ORDER BY total_beds DESC;
 
 
