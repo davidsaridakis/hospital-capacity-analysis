@@ -1,120 +1,124 @@
 # 🏥 Hospital Capacity Analysis (Spain)
 
-## 📌 Project Overview
+## Exploring Healthcare Infrastructure Through Public Data
 
-This project analyses hospital capacity across Spain using data from the Spanish Ministry of Health from 2024.
+### Project Overview
 
-It demonstrates an end-to-end data workflow:
+After moving to Spain, I became curious about how healthcare infrastructure is distributed across the country.
 
-* Data cleaning with Python
-* Relational database design in MySQL
-* Analytical querying with SQL
-* Interactive dashboard creation in Power BI
+The Spanish Ministry of Health publishes detailed information on every registered hospital, making it an interesting dataset for exploring regional healthcare capacity. Rather than using it simply to create a dashboard, I wanted to build a complete analytical workflow that transformed raw public data into meaningful reporting.
 
-The goal is to uncover insights into:
-
-* Regional distribution of hospitals
-* Hospital capacity (beds)
-* Public vs private infrastructure
-* Largest hospitals in the country
+The project became an opportunity to strengthen my Power BI skills while also demonstrating the wider analytics process. Instead of importing the data directly into a visualisation, I cleaned and validated it in Python, modelled it in a relational database, answered analytical questions using SQL and finally presented the findings through an interactive dashboard.
 
 ---
 
-## ⚙️ Tech Stack
+# Questions Explored
 
-* **Python** (pandas) → data cleaning & preprocessing
-* **MySQL** → database design & querying
-* **Power BI** → dashboard & visualisation
-* **Jupyter Notebook** → exploration & validation
+Throughout the analysis I explored questions such as:
 
----
+- How are hospitals distributed across Spain's autonomous communities?
+- Which regions have the greatest hospital bed capacity?
+- How does public healthcare infrastructure compare with private provision?
+- Where are Spain's largest hospitals located?
 
-## 📂 Project Structure
-
-```
-├── dashboard/        # Power BI dashboard + images
-├── data/
-│   ├── raw/          # Original dataset
-│   └── cleaned/      # Cleaned dataset (CSV)
-├── notebooks/        # Exploration & analysis
-├── scripts/          # Data cleaning pipeline
-├── sql/              # Database + analysis queries
-├── README.md
-```
+The objective was not to evaluate healthcare performance, but to demonstrate how publicly available data can be transformed into structured reporting that supports exploration and comparison.
 
 ---
 
-## 🔄 Data Pipeline
+# Analytical Workflow
 
 ```
-Raw Excel Data
-    ↓
-Python Cleaning Script
-    ↓
-Clean CSV Output
-    ↓
-MySQL Database (Star Schema)
-    ↓
-SQL Analysis (Views + Queries)
-    ↓
+Public Healthcare Dataset
+            ↓
+Data Cleaning & Validation
+            ↓
+Relational Database Design
+            ↓
+SQL Analysis
+            ↓
 Power BI Dashboard
 ```
 
+Each stage builds on the previous one, transforming raw government data into an interactive reporting tool.
+
 ---
 
-## 🧹 Data Cleaning
+# About the Dataset
 
-Implemented in:
+This project uses the **Catálogo Nacional de Hospitales (2024)** published by the Spanish Ministry of Health.
+
+The dataset contains information on hospitals throughout Spain, including location, ownership, management type and bed capacity.
+
+Although the data is publicly available, it required cleaning, standardisation and restructuring before it could be analysed effectively.
+
+---
+
+# Technical Workflow
+
+The project intentionally demonstrates the same analytical workflow across several technologies, with each tool contributing a different stage of the analysis.
+
+- **Python** was used for data cleaning, preprocessing and validation.
+- **MySQL** was used to design a relational database and store the cleaned dataset.
+- **SQL** was used to answer analytical questions through reusable queries and views.
+- **Power BI** recreated the reporting layer through an interactive dashboard.
+
+Rather than focusing on a single tool, the project demonstrates how different technologies work together within an analytics workflow.
+
+---
+
+# Data Cleaning
+
+The preprocessing pipeline was implemented in:
 
 ```
 scripts/data_cleaning.py
 ```
 
-Key steps:
+Key transformations included:
 
-* Standardised column names (snake_case)
-* Renamed fields for clarity
-* Handled missing values
-* Converted data types
-* Removed redundant columns
-* Added validation checks
-
----
-
-## 🗄️ Database Design
-
-A **star schema** was implemented:
-
-* Fact table:
-
-  * `hospitals`
-
-* Dimension tables:
-
-  * `communities`
-  * `provinces`
-  * `management_types`
-  * `center_types`
+- Standardising column names
+- Renaming fields for clarity
+- Handling missing values
+- Converting data types
+- Removing redundant fields
+- Performing validation checks
 
 ---
 
-## 📊 SQL Analysis
+# Database Design
 
-Main logic defined in:
+A star schema was implemented to support efficient reporting.
+
+### Fact Table
+
+- `hospitals`
+
+### Dimension Tables
+
+- `communities`
+- `provinces`
+- `management_types`
+- `center_types`
+
+---
+
+# SQL Analysis
+
+The primary reporting queries are contained in:
 
 ```
 sql/analysis_queries.sql
 ```
 
-Includes:
+The analysis includes:
 
-* Hospitals per region
-* Beds per region
-* Average beds per hospital
-* Public vs private distribution
-* Top 10 largest hospitals
+- Hospitals by autonomous community
+- Hospital beds by region
+- Average beds per hospital
+- Public versus private distribution
+- Largest hospitals in Spain
 
-A reusable view was created:
+To simplify reporting, a reusable SQL view was created:
 
 ```
 hospital_full_data
@@ -122,81 +126,85 @@ hospital_full_data
 
 ---
 
-## 📈 Dashboard (Power BI)
+# Dashboard
 
-The dashboard presents:
+The final stage of the project was recreating the SQL analysis within Power BI.
 
-* Total hospitals, beds, and averages
-* Regional comparisons
-* Capacity distribution
-* Public vs private breakdown
-* Top hospitals by size
+The dashboard is organised into two reporting pages.
 
-### Preview
+## National Overview
 
-![Dashboard Page 1](dashboard/dashboard_overview.png)
-![Dashboard Page 2](dashboard/dashboard_details.png)
+- High-level KPIs
+- Regional hospital distribution
+- Hospital bed capacity
+- Public vs private infrastructure
+
+![Dashboard Overview](dashboard/dashboard_overview.png)
 
 ---
 
-## 🚀 How to Run
+## Capacity Analysis
 
-### 1. Python (Data Cleaning)
+- Average hospital size
+- Largest hospitals in Spain
+- Regional comparisons
+- Supporting operational visuals
 
-```bash
-pip install -r requirements.txt
-python scripts/data_cleaning.py
+![Dashboard Details](dashboard/dashboard_details.png)
+
+---
+
+# Project Structure
+
+```text
+.
+├── dashboard/
+│   ├── hospital_capacity.pbix
+│   └── dashboard images
+│
+├── data/
+│   ├── raw/
+│   └── cleaned/
+│
+├── notebooks/
+│
+├── scripts/
+│   └── data_cleaning.py
+│
+├── sql/
+│   ├── create_schema.sql
+│   ├── create_tables.sql
+│   ├── load_data.sql
+│   ├── analysis_queries.sql
+│   └── dump.sql
+│
+├── requirements.txt
+└── README.md
 ```
 
 ---
 
-### 2. MySQL Setup
+# Key Findings
 
-Run in order:
-
-```sql
-create_schema.sql
-create_tables.sql
-load_data.sql
-analysis_queries.sql
-```
-
-Or import:
-
-```
-sql/dump.sql
-```
+- Hospital infrastructure is unevenly distributed across Spain.
+- Larger urban regions contain both more hospitals and significantly greater bed capacity.
+- Public hospitals account for the majority of healthcare infrastructure.
+- Average hospital size varies considerably between regions.
 
 ---
 
-### 3. Power BI
+# What I Learned
 
-* Open:
+One of the most valuable parts of this project was working with a real government dataset rather than one prepared specifically for analysis.
 
-```
-dashboard/hospital_capacity.pbix
-```
+Before any dashboard could be built, the data needed to be cleaned, validated and organised into a structure suitable for reporting. It reinforced that effective visualisations are built on good data modelling, and that Python, SQL and Power BI each play a different role in transforming raw data into useful information.
 
-* Connect to local MySQL instance if needed
+It also strengthened my understanding of how to move beyond simply creating dashboards and instead build an end-to-end analytics workflow.
 
 ---
 
-## 📌 Key Insights
+# Data Source
 
-* Hospital distribution is uneven across regions
-* Larger urban areas have significantly higher capacity
-* Public hospitals dominate overall infrastructure
-* Significant variation exists in average hospital size
+**Spanish Ministry of Health**
 
----
-
-## 📜 Data Source
-
-Spanish Ministry of Health
-**Catálogo Nacional de Hospitales (2024)**
-
----
-
-## 👤 Author
-
-David Saridakis
+*Catálogo Nacional de Hospitales (2024)*
